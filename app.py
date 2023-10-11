@@ -33,7 +33,7 @@ async def run_bully():
         print("Got %d other pod ip's" % (len(ip_list)))
         
         # Get ID's of other pods by sending a GET request to them
-        await asyncio.sleep(2)
+        await asyncio.sleep(random.randint(1, 5))
         other_pods = dict()
         for pod_ip in ip_list:
             endpoint = '/pod_id'
