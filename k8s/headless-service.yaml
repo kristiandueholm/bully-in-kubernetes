@@ -1,12 +1,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bully-service
+  name: bully-service-internal
 spec:
-  clusterIP: None
+  clusterIP: None # headless service, allows us to access the pod ips and not just cluster ip.
   selector:
     app: bully-app
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080 
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bully-service-external
+spec:
+  selector:
+    leader: "True" # Directs only to leader
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort # NodePort for external access

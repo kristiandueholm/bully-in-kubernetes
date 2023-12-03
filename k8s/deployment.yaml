@@ -13,11 +13,13 @@ spec:
       labels:
         name: bully-app
         app: bully-app
+        leader: "False"
     spec:
+      serviceAccountName: label-sa # Using custom SA
       containers:
         - name: bully-container
           image: bully-app
-          imagePullPolicy: Never
+          imagePullPolicy: Never # Use local image inside Minikube
           env:
             - name: WEB_PORT
               value: "8080"
@@ -25,6 +27,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: POD_NAME # Added env. var.
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
           ports:
             - containerPort: 8080
               name: http

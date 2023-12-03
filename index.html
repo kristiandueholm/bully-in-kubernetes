@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Cookie</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <select id="category">
+        <option value="all">All Categories</option>
+        <option value="bible">Bible</option>
+        <option value="computers">Computers</option>
+        <option value="cookie">Cookie</option>
+        <option value="definitions">Definitions</option>
+        <option value="miscellaneous">Miscellaneous</option>
+        <option value="people">People</option>
+        <option value="platitudes">Platitudes</option>
+        <option value="politics">Politics</option>
+        <option value="science">Science</option>
+        <option value="wisdom">Wisdom</option>
+    </select>
+    <button onclick="getFortune()">Get a Fortune Cookie!</button>
+    <p id="fortune"></p>
+
+    <script>
+        async function getFortune() {
+            const category = document.getElementById("category").value;
+            const url = "/fortune?category=" + encodeURIComponent(category);
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                document.getElementById("fortune").innerText = data.fortune;
+            } catch(error) {
+                console.error("Error fetching fortune:", error);
+            }
+        }
+    </script>
+</body>
+
+</html>
